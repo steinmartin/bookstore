@@ -10,7 +10,7 @@ class Customer {
 
     static constraints = {
 
-        phone nullable;true
+
         firstName blank: false
         lastName  blank: false
         email nullable: true

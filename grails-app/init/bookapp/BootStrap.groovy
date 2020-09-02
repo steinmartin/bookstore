@@ -3,8 +3,12 @@ package bookapp
 class BootStrap {
 
     def init = { servletContext ->
-        new Books(name:"Morning Yvan ",sku:"MB01",price: 14.94).save(failOnError: true)
-        new Books(name:"NightYvan ",sku:"NY01",price: 13.94).save(failOnError: true)
+        def author= new Author(name:"Yvan Loic")
+
+        def book1= new Books(name:"Morning Yvan ",isbn: "MB01",price: 14.94).save(failOnError: true)
+        def book2 =new Books(name:"NightYvan ",isbn: "NY01",price: 13.94).save(failOnError: true)
+        author.addToBooks(book1)
+        author.addToBooks(book2)
         new bookapp.Customer(phone: 8015551212, firstName: "Luther", lastName: "Allison", totalPoints: 1).save()
         new bookapp.Customer(phone: 2135551212, firstName: "Bessie", lastName: "Brown", totalPoints: 2).save()
         new bookapp.Customer(phone: 6055551212, firstName: "Bo", lastName: "Diddley", totalPoints: 3).save()
