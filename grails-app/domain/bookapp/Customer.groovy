@@ -6,7 +6,7 @@ class Customer {
     Long phone
     String email
     Integer totalPoint
-    static hasMany=[awards:Award,orders:OnlineOrder]
+    static hasMany=[books:Books]
 
     static constraints = {
 
@@ -15,5 +15,9 @@ class Customer {
         lastName  blank: false
         email nullable: true
         totalPoint nullable:true
+    }
+    static mapping={
+        version(false)
+        books(cascade: 'all-delete-orphan')
     }
 }

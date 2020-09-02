@@ -4,11 +4,14 @@ class CustomerController {
     static scaffold=Customer
 
     def calculationsService
+    CustomerService customerService
     def index() {
+        def response= customerService.list(params)
+        [customerInstancelist:response.list, total:response.count]
 
     }
     def create(){
-        [CustomerInstance: new Customer()]
+        [CustomerInstance: flash.redirectParams]//store object for the next request
     }
      def lookup(){
           def customerInstance=Customer.list()
@@ -35,4 +38,30 @@ class CustomerController {
         // Save Customer
 
     }
+    def save(){
+        def response= customerService.save(params)
+        if(!response.isSuccess){
+            flash.redirectParams = response.model
+            flash.message = AppUtil.infoMessage(g.message(code: "unable.to.save"), false)
+            redirect(controller: "customer", action: "create")
+        }else{
+            flash.message = AppUtil.infoMessage(g.message(code: "saved"))
+            redirect(controller: "customer", action: "index")
+        }
+
+    }
+    def edit(Integer id) {
+        if (flash.redirectParams) {
+            [member: flash.redirectParams]
+        } else {
+            def response = customerService.getById()
+            if (!response) {
+                flash.message = AppUtil.infoMessage(g.message(code: "invalid.entity"), false)
+                redirect(controller: "customer", action: "index")
+            } else {
+                [member: response]
+            }
+        }
+    }
+
 }
